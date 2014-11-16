@@ -4,58 +4,22 @@ PImage img1, img2, img3, img4, img5, img6, img7,
 img8, img9, img10, img11, img12, img13, img14, img15;
 int[][] inputArray;
 
-//int[] room00, room01, room02, room03, room10, room11, 
-//room12, room13, room20, room21, room22, room23, 
-//room30, room31, room32, room33;
-
-int[]room00 = {
-  0, 0
-};
-int[]room01 = {
-  0, 1
-};
-int[]room02 = {
-  0, 2
-};
-int[]room03 = {
-  0, 3
-};
-int[]room10 = {
-  1, 0
-};
-int[]room11 = {
-  1, 1
-};
-int[]room12 = {
-  1, 2
-};
-int[]room13 = {
-  1, 3
-};
-int[]room20 = {
-  2, 0
-};
-int[]room21 = {
-  2, 1
-};
-int[]room22 = {
-  2, 2
-};
-int[]room23 = {
-  2, 3
-};
-int[]room30 = {
-  3, 0
-};
-int[]room31 = {
-  3, 1
-};
-int[]room32 = {
-  3, 2
-};
-int[] room33 = {
-  3, 3
-};
+int[]room00 = {0, 0};
+int[]room01 = {0, 1};
+int[]room02 = {0, 2};
+int[]room03 = {0, 3};
+int[]room10 = {1, 0};
+int[]room11 = {1, 1};
+int[]room12 = {1, 2};
+int[]room13 = {1, 3};
+int[]room20 = {2, 0};
+int[]room21 = {2, 1};
+int[]room22 = {2, 2};
+int[]room23 = {2, 3};
+int[]room30 = {3, 0};
+int[]room31 = {3, 1};
+int[]room32 = {3, 2};
+int[] room33 = {3, 3};
 
 void setup()
 {
@@ -87,9 +51,6 @@ void setup()
     rnd.generateMaze();
   inputArray = rnd.maze;
 
-  MazeDisplay display = new MazeDisplay();
-  ArrayList<ArrayList<Integer>> parsedArray = display.parsedArray(inputArray);
-
   for (int i = 0; i < inputArray.length; i++)
   {
     for (int j = 0; j < inputArray[i].length; j++)
@@ -100,27 +61,11 @@ void setup()
     System.out.print("\n");
   }
 
-  /* for (ArrayList<Integer> element : parsedArray)
-   {
-   print(element.get(0));
-   print("\n");
-   print(element.get(1));
-   print("\n");
-   print(element.get(2));
-   print("\n");
-   print(element.get(3));
-   print("\n");
-   print(element.get(4));
-   print("\n");
-   }
-   */
 }
 
 void draw()
 {
   background(0);
-  //size(800, 800);
-
   stroke(0);
   fill(255);
 
@@ -178,9 +123,6 @@ void draw()
       }
     }
   }
-
-
-
 
   stroke(0);
   fill(0, 255, 0); 
