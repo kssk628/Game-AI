@@ -187,93 +187,68 @@ void draw()
   ellipse(x, y, 12, 12);
 }
 
-void keyPressed()
-{
-  if (keyCode == UP)
-  {
-    y=y-8;
-  }
-
-  if (keyCode == DOWN)
-  {
-    y=y+8;
-  }
-
-  if (keyCode == LEFT) 
-  {
-    collisionDetection();
-  }
-
-  if (keyCode == RIGHT)
-  {
-    collisionDetection();
-  }
-}
-
-void collisionDetection() {
+void keyPressed() {
 
   int[] room;
-  if (x > 50 && x < 175 && y > 50 && y < 175) {
+  if (x > 50 && x <= 175 && y > 50 && y <= 175) {
     room = room00;
     checkRoomNumber(room);
-  }
-  else if (x >= 175 && x < 300 && y > 50 && y < 175) {
+  } else if (x > 175 && x <= 300 && y > 50 && y <= 175) {
     room = room01;
     checkRoomNumber(room);
-  }
-   else if (x >=300 && x < 425 && y > 50 && y < 175) {
+  } else if (x > 300 && x <= 425 && y > 50 && y <= 175) {
     room = room02;
     checkRoomNumber(room);
   }
-    if (x >= 425 && x < 550 && y > 50 && y < 175) {
+  else if (x > 425 && x <= 550 && y > 50 && y <= 175) {
     room = room03;
     checkRoomNumber(room);
   }
-    if (x > 50 && x < 175 && y >= 175 && y < 300) {
+  else if (x > 50 && x <= 175 && y > 175 && y <= 300) {
     room = room10;
     checkRoomNumber(room);
   }
-    if (x >= 175 && x < 300 && y >= 175 && y < 300) {
+  else if (x > 175 && x <= 300 && y > 175 && y <= 300) {
     room = room11;
     checkRoomNumber(room);
   }
-    if (x >= 300 && x < 425 && y >= 175 && y < 300) {
+  else if (x > 300 && x <= 425 && y > 175 && y <= 300) {
     room = room12;
     checkRoomNumber(room);
   }
-    if (x >=425 && x < 550 && y >= 175 && y < 300) {
+  else if (x > 425 && x <= 550 && y > 175 && y <= 300) {
     room = room13;
     checkRoomNumber(room);
   }
-    if (x > 50 && x < 175 && y >=300 && y < 425) {
+  else if (x > 50 && x <= 175 && y > 300 && y <= 425) {
     room = room20;
     checkRoomNumber(room);
   }
-    if (x >=175 && x < 300 && y >=300 && y < 425) {
+  else if (x > 175 && x <= 300 && y > 300 && y <= 425) {
     room = room21;
     checkRoomNumber(room);
   }
-    if (x >=300 && x < 425 && y >=300 && y < 425) {
+  else if (x > 300 && x <= 425 && y > 300 && y <= 425) {
     room = room22;
     checkRoomNumber(room);
   }
-    if (x >=425 && x < 550 && y >=300 && y < 425) {
+  else if (x > 425 && x <= 550 && y > 300 && y <= 425) {
     room = room23;
     checkRoomNumber(room);
   }
-    if (x > 50 && x < 175 && y >= 425 && y < 550) {
+  else if (x > 50 && x <= 175 && y > 425 && y <= 550) {
     room = room30;
     checkRoomNumber(room);
   }
-    if (x >=175 && x < 300 && y >= 425 && y < 550) {
+  else if (x > 175 && x <= 300 && y > 425 && y <= 550) {
     room = room31;
     checkRoomNumber(room);
   }
-    if (x >=300 && x < 425 && y >= 425 && y < 550) {
+  else if (x > 300 && x <= 425 && y > 425 && y <= 550) {
     room = room32;
     checkRoomNumber(room);
   }
-    if (x >=425 && x < 550 && y >= 425 && y < 550) {
+  else if (x > 425 && x <= 550 && y > 425 && y <= 550) {
     room = room33;
     checkRoomNumber(room);
   }
@@ -283,62 +258,447 @@ void checkRoomNumber(int[] room)
 {
   switch(inputArray[room[0]][room[1]]) {
   case 11000:
-//    image(img4, mazex + 125 * i, mazey + 125 * j);
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + room[1] * 125)
+        y = y + 8;
+      break;
+    }
     break;
   case 10100:
-    if (keyCode == RIGHT) {
-      x = x + 8;
-    } else if (keyCode == LEFT)
+    switch (keyCode)
     {
-      if (x - 8 > 50)
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + 125 * room[0])
         x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
     }
-
     break;
   case 10010:
-  //  image(img2, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
+        x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + room[1] * 125)
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 10001:
-    //image(img1, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
+    }
     break;
   case 21100:
-   // image(img10, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
+    }
     break;
   case 21010:
-    //image(img9, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 21001:
-    //image(img7, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
+    }
     break;
   case 20110:
-    if (keyCode == RIGHT) {
-      x = x + 8;
-    } else if (keyCode == LEFT)
+    switch (keyCode)
     {
-      if (x - 8 > 50)
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
         x = x - 8;
-    }    
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 20011:
-    //image(img5, mazex + 125 * i, mazey + 125 * j);
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 20101:
-   // image(img6, mazex + 125 * i, mazey + 125 * j);  
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
+    }
     break;
   case 31110:
-    //image(img12, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if (x - 8 > 50 + room[0] + 125)
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 31101:
-    //image(img14, mazex + 125 * i, mazey + 125 * j);
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if (y + 8 <= 175 + 125 * room[1])
+        y = y + 8;
+      break;
+    }
     break;
   case 31011:
-    //image(img13, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if (x + 8 <= 175 + room[0] * 125)
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 30111:
-    //image(img11, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if (y - 8 > 50 + 125 * room[1])
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   case 41111:
-    //image(img15, mazex + 125 * i, mazey + 125 * j);    
+    switch (keyCode)
+    {
+    case RIGHT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x + 8 <= 175 + room[0] * 125)
+          x = x + 8;
+      } else
+        x = x + 8;
+      break;
+    case LEFT:
+      if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
+      {
+        if (x - 8 > 50 + 125 * room[0])
+          x = x - 8;
+      } else
+        x = x - 8;
+      break;
+    case UP:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y - 8 > 50 + room[1] * 125)
+          y = y - 8;
+      } else
+        y = y - 8;
+      break;
+    case DOWN:
+      if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
+      {
+        if (y + 8 <= 175 + room[1] * 125)
+          y = y + 8;
+      } else
+        y = y + 8;
+      break;
+    }
     break;
   }
 }
