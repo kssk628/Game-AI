@@ -19,7 +19,7 @@ int[]room23 = {2, 3};
 int[]room30 = {3, 0};
 int[]room31 = {3, 1};
 int[]room32 = {3, 2};
-int[] room33 = {3, 3};
+int[]room33 = {3, 3};
 
 void setup()
 {
@@ -134,71 +134,88 @@ void keyPressed() {
   int[] room;
   if (x > 50 && x <= 175 && y > 50 && y <= 175) {
     room = room00;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   } else if (x > 175 && x <= 300 && y > 50 && y <= 175) {
-    room = room01;
+    room = room10;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   } else if (x > 300 && x <= 425 && y > 50 && y <= 175) {
-    room = room02;
+    room = room20;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 425 && x <= 550 && y > 50 && y <= 175) {
-    room = room03;
+    room = room30;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 50 && x <= 175 && y > 175 && y <= 300) {
-    room = room10;
+    room = room01;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 175 && x <= 300 && y > 175 && y <= 300) {
     room = room11;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 300 && x <= 425 && y > 175 && y <= 300) {
-    room = room12;
+    room = room21;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 425 && x <= 550 && y > 175 && y <= 300) {
-    room = room13;
+    room = room31;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 50 && x <= 175 && y > 300 && y <= 425) {
-    room = room20;
+    room = room02;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 175 && x <= 300 && y > 300 && y <= 425) {
-    room = room21;
+    room = room12;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 300 && x <= 425 && y > 300 && y <= 425) {
     room = room22;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 425 && x <= 550 && y > 300 && y <= 425) {
-    room = room23;
+    room = room32;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 50 && x <= 175 && y > 425 && y <= 550) {
-    room = room30;
+    room = room03;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 175 && x <= 300 && y > 425 && y <= 550) {
-    room = room31;
+    room = room13;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 300 && x <= 425 && y > 425 && y <= 550) {
-    room = room32;
+    room = room23;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
   else if (x > 425 && x <= 550 && y > 425 && y <= 550) {
     room = room33;
+    print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
+  
 }
 
 void checkRoomNumber(int[] room)
 {
-  switch(inputArray[room[0]][room[1]]) {
+  switch(inputArray[room[1]][room[0]]) {
   case 11000:
     switch (keyCode)
     {
@@ -207,7 +224,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
@@ -257,7 +274,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
@@ -311,7 +328,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
@@ -336,7 +353,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
@@ -398,7 +415,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
@@ -485,7 +502,7 @@ void checkRoomNumber(int[] room)
         x = x + 8;
       break;
     case LEFT:
-      if (x - 8 > 50 + room[0] + 125)
+      if (x - 8 > 50 + room[0] * 125)
         x = x - 8;
       break;
     case UP:
