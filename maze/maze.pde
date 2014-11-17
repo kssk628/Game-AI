@@ -1,29 +1,88 @@
 int x = 120, y = 120, x2 = 720, y2 = 120, mazex = 50, mazey = 50, maze2x = 650, maze2y = 50;
+boolean[] key1 = {
+  false, false, false, false
+};
+boolean[] key2 = {
+  false, false, false, false
+};
 
 PImage img1, img2, img3, img4, img5, img6, img7, 
 img8, img9, img10, img11, img12, img13, img14, img15;
-int[][] inputArray;
+int[][] inputArray = new int[4][4];
 
-int[]room00 = {0, 0};
-int[]room01 = {0, 1};
-int[]room02 = {0, 2};
-int[]room03 = {0, 3};
-int[]room10 = {1, 0};
-int[]room11 = {1, 1};
-int[]room12 = {1, 2};
-int[]room13 = {1, 3};
-int[]room20 = {2, 0};
-int[]room21 = {2, 1};
-int[]room22 = {2, 2};
-int[]room23 = {2, 3};
-int[]room30 = {3, 0};
-int[]room31 = {3, 1};
-int[]room32 = {3, 2};
-int[]room33 = {3, 3};
+PFont font; 
+
+int[]room00 = {
+  0, 0
+};
+int[]room01 = {
+  0, 1
+};
+int[]room02 = {
+  0, 2
+};
+int[]room03 = {
+  0, 3
+};
+int[]room10 = {
+  1, 0
+};
+int[]room11 = {
+  1, 1
+};
+int[]room12 = {
+  1, 2
+};
+int[]room13 = {
+  1, 3
+};
+int[]room20 = {
+  2, 0
+};
+int[]room21 = {
+  2, 1
+};
+int[]room22 = {
+  2, 2
+};
+int[]room23 = {
+  2, 3
+};
+int[]room30 = {
+  3, 0
+};
+int[]room31 = {
+  3, 1
+};
+int[]room32 = {
+  3, 2
+};
+int[]room33 = {
+  3, 3
+};
 
 void setup()
 {
   size(1200, 600);
+
+  font = createFont("Arial", 16, true);
+  textFont(font, 16);
+
+  String[] newArray = loadStrings("inputarray.txt");
+
+  String[][] arrayofMazes = new String[newArray.length][16];
+
+  for (int i = 0; i < newArray.length; i++)
+  {
+    arrayofMazes[i] = newArray[i].split("\t");
+  }
+
+  int row = (int) Math.floor(Math.random()*10);
+  for (int a = 0; a < 4; a++) {
+    for (int b = 0; b < 4; b++) {
+      inputArray[a][b] = Integer.parseInt(arrayofMazes[row][4 * a + b ]);
+    }
+  }
 
   img1 = loadImage("10001.png");
   img2 = loadImage("10010.png");
@@ -41,16 +100,16 @@ void setup()
   img14 = loadImage("31101.png");
   img15 = loadImage("41111.png");
 
-  RandomLevelGenerator rnd = new RandomLevelGenerator();
-  rnd.RandomLevelGenerator();
-  rnd.generateMaze();
-  rnd.mazeCompatibility();
-  rnd.solvable();
-
-  while (!rnd.mazeCompatibility () || !rnd.solvable())
-    rnd.generateMaze();
-  inputArray = rnd.maze;
-
+  /*  RandomLevelGenerator rnd = new RandomLevelGenerator();
+   rnd.RandomLevelGenerator();
+   rnd.generateMaze();
+   rnd.mazeCompatibility();
+   rnd.solvable();
+   
+   while (!rnd.mazeCompatibility () || !rnd.solvable())
+   rnd.generateMaze();
+   inputArray = rnd.maze;
+   */
   for (int i = 0; i < inputArray.length; i++)
   {
     for (int j = 0; j < inputArray[i].length; j++)
@@ -60,8 +119,7 @@ void setup()
     }
     System.out.print("\n");
   }
-
-}
+} 
 
 void draw()
 {
@@ -123,7 +181,7 @@ void draw()
       }
     }
   }
-  
+
   for (int j = 0; j< inputArray.length; j++)
   {
     for (int i = 0; i< inputArray[j].length; i++)
@@ -179,16 +237,122 @@ void draw()
     }
   }
 
+  fill(0, 255, 0);                        
+  textAlign(CENTER);
+  text("START", 120.0, 120.0);
+
+  fill(0, 255, 0);                         
+  textAlign(CENTER);
+  text("GOAL", 480.0, 480.0);
+
+  fill(255, 0, 0);                        
+  textAlign(CENTER);
+  text("START", 720.0, 120.0);
+
+  fill(255, 0, 0);                         
+  textAlign(CENTER);
+  text("GOAL", 1080.0, 480.0);
+
   stroke(0);
   fill(0, 255, 0); 
   ellipse(x, y, 12, 12);
+  fill(255, 0, 0); 
+
   ellipse(x2, y2, 12, 12);
-  
+
   if (keyPressed)
-    keyPressed1();
-    
-  if (keyPressed)
-    keyPressed2();
+  {
+    switch(keyCode)
+    {
+    case UP:  
+      key1[0] = true;
+      break;
+
+    case RIGHT:
+      key1[1] = true;
+      break;
+
+    case DOWN:
+      key1[2] = true;
+      break;
+
+    case LEFT:
+      key1[3] = true;
+      break;
+    }
+  }
+  if (keyPressed) {
+
+    switch(key)
+    {
+    case 'w': 
+    case 'W':  
+      key2[0] = true;
+      break;
+
+    case 'd': 
+    case 'D':
+      key2[1] = true;
+      break;
+
+    case 's': 
+    case 'S':
+      key2[2] = true;
+      break;
+
+    case 'a': 
+    case 'A':
+      key2[3] = true;
+      break;
+    }
+  }
+  keyPressed1();
+  keyPressed2();
+}
+
+
+void keyReleased() {
+
+  switch(keyCode)
+  {
+  case UP:  
+    key1[0] = false;
+    break;
+
+  case RIGHT:
+    key1[1] = false;
+    break;
+
+  case DOWN:
+    key1[2] = false;
+    break;
+
+  case LEFT:
+    key1[3] = false;
+    break;
+  }
+  switch(key)
+  {
+  case 'w': 
+  case 'W':  
+    key2[0] = false;
+    break;
+
+  case 'd': 
+  case 'D':
+    key2[1] = false;
+    break;
+
+  case 's': 
+  case 'S':
+    key2[2] = false;
+    break;
+
+  case 'a': 
+  case 'A':
+    key2[3] = false;
+    break;
+  }
 }
 
 void keyPressed1() {
@@ -206,519 +370,461 @@ void keyPressed1() {
     room = room20;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 425 && x <= 550 && y > 50 && y <= 175) {
+  } else if (x > 425 && x <= 550 && y > 50 && y <= 175) {
     room = room30;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 50 && x <= 175 && y > 175 && y <= 300) {
+  } else if (x > 50 && x <= 175 && y > 175 && y <= 300) {
     room = room01;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 175 && x <= 300 && y > 175 && y <= 300) {
+  } else if (x > 175 && x <= 300 && y > 175 && y <= 300) {
     room = room11;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 300 && x <= 425 && y > 175 && y <= 300) {
+  } else if (x > 300 && x <= 425 && y > 175 && y <= 300) {
     room = room21;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 425 && x <= 550 && y > 175 && y <= 300) {
+  } else if (x > 425 && x <= 550 && y > 175 && y <= 300) {
     room = room31;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 50 && x <= 175 && y > 300 && y <= 425) {
+  } else if (x > 50 && x <= 175 && y > 300 && y <= 425) {
     room = room02;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 175 && x <= 300 && y > 300 && y <= 425) {
+  } else if (x > 175 && x <= 300 && y > 300 && y <= 425) {
     room = room12;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 300 && x <= 425 && y > 300 && y <= 425) {
+  } else if (x > 300 && x <= 425 && y > 300 && y <= 425) {
     room = room22;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 425 && x <= 550 && y > 300 && y <= 425) {
+  } else if (x > 425 && x <= 550 && y > 300 && y <= 425) {
     room = room32;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 50 && x <= 175 && y > 425 && y <= 550) {
+  } else if (x > 50 && x <= 175 && y > 425 && y <= 550) {
     room = room03;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 175 && x <= 300 && y > 425 && y <= 550) {
+  } else if (x > 175 && x <= 300 && y > 425 && y <= 550) {
     room = room13;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 300 && x <= 425 && y > 425 && y <= 550) {
+  } else if (x > 300 && x <= 425 && y > 425 && y <= 550) {
     room = room23;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
-  }
-  else if (x > 425 && x <= 550 && y > 425 && y <= 550) {
+  } else if (x > 425 && x <= 550 && y > 425 && y <= 550) {
     room = room33;
     //print(room[0] + " " + room[1]);
     checkRoomNumber(room);
   }
-  
 }
 
 void checkRoomNumber(int[] room)
 {
   switch(inputArray[room[1]][room[0]]) {
   case 11000:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + room[1] * 125)
         y = y + 4;
-      break;
     }
+
     break;
   case 10100:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + 125 * room[0])
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }  
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 10010:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + room[1] * 125)
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 10001:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 21100:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 21010:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 21001:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 20110:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 20011:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 20101:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 31110:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {      
       if (x - 4 > 50 + room[0] * 125)
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 31101:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {  
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if (y + 4 <= 175 + 125 * room[1])
         y = y + 4;
-      break;
     }
     break;
   case 31011:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if (x + 4 <= 175 + room[0] * 125)
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 30111:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {  
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if (y - 4 > 50 + 125 * room[1])
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   case 41111:
-    switch (keyCode)
-    {
-    case RIGHT:
+    if (key1[1]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x + 4 <= 175 + room[0] * 125)
           x = x + 4;
       } else
         x = x + 4;
-      break;
-    case LEFT:
+    }
+    if (key1[3]) {
       if ((y > 50 + 125 * room[1] && y < 100 + 125 * room[1]) || (y > 120 + 125 * room[1] && y <= 175 + 125 * room[1]))
       {
         if (x - 4 > 50 + 125 * room[0])
           x = x - 4;
       } else
         x = x - 4;
-      break;
-    case UP:
+    }
+    if (key1[0]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y - 4 > 50 + room[1] * 125)
           y = y - 4;
       } else
         y = y - 4;
-      break;
-    case DOWN:
+    }
+    if (key1[2]) {
       if ((x > 50 + 125 * room[0] && x < 100 + 125 * room[0]) || (x > 120 + 125 * room[0] && x <= 175 + 125 * room[0]))
       {
         if (y + 4 <= 175 + room[1] * 125)
           y = y + 4;
       } else
         y = y + 4;
-      break;
     }
     break;
   }
@@ -739,520 +845,466 @@ void keyPressed2() {
     room = room20;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 1025 && x2 <= 1150 && y2 > 50 && y2 <= 175) {
+  } else if (x2 > 1025 && x2 <= 1150 && y2 > 50 && y2 <= 175) {
     room = room30;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 650 && x2 <= 775 && y2 > 175 && y2 <= 300) {
+  } else if (x2 > 650 && x2 <= 775 && y2 > 175 && y2 <= 300) {
     room = room01;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 775 && x2 <= 900 && y2 > 175 && y2 <= 300) {
+  } else if (x2 > 775 && x2 <= 900 && y2 > 175 && y2 <= 300) {
     room = room11;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 900 && x2 <= 1025 && y2 > 175 && y2 <= 300) {
+  } else if (x2 > 900 && x2 <= 1025 && y2 > 175 && y2 <= 300) {
     room = room21;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 1025 && x2 <= 1150 && y2 > 175 && y2 <= 300) {
+  } else if (x2 > 1025 && x2 <= 1150 && y2 > 175 && y2 <= 300) {
     room = room31;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 650 && x2 <= 775 && y2 > 300 && y2 <= 425) {
+  } else if (x2 > 650 && x2 <= 775 && y2 > 300 && y2 <= 425) {
     room = room02;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 775 && x2 <= 900 && y2 > 300 && y2 <= 425) {
+  } else if (x2 > 775 && x2 <= 900 && y2 > 300 && y2 <= 425) {
     room = room12;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 900 && x2 <= 1025 && y2 > 300 && y2 <= 425) {
+  } else if (x2 > 900 && x2 <= 1025 && y2 > 300 && y2 <= 425) {
     room = room22;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 1025 && x2 <= 1150 && y2 > 300 && y2 <= 425) {
+  } else if (x2 > 1025 && x2 <= 1150 && y2 > 300 && y2 <= 425) {
     room = room32;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 650 && x2 <= 775 && y2 > 425 && y2 <= 550) {
+  } else if (x2 > 650 && x2 <= 775 && y2 > 425 && y2 <= 550) {
     room = room03;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 775 && x2 <= 900 && y2 > 425 && y2 <= 550) {
+  } else if (x2 > 775 && x2 <= 900 && y2 > 425 && y2 <= 550) {
     room = room13;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 900 && x2 <= 1025 && y2 > 425 && y2 <= 550) {
+  } else if (x2 > 900 && x2 <= 1025 && y2 > 425 && y2 <= 550) {
     room = room23;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
-  }
-  else if (x2 > 1025 && x2 <= 1150 && y2 > 425 && y2 <= 550) {
+  } else if (x2 > 1025 && x2 <= 1150 && y2 > 425 && y2 <= 550) {
     room = room33;
     //print(room[0] + " " + room[1]);
     checkRoomNumber2(room);
   }
-  
 }
 
 void checkRoomNumber2(int[] room)
 {
   switch(inputArray[room[1]][room[0]]) {
   case 11000:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }    
+    if (key2[2]) {
       if (y2 + 4 <= 175 + room[1] * 125)
         y2 = y2 + 4;
-      break;
     }
     break;
   case 10100:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + 125 * room[0])
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }  
+    if (key2[0]) {
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }  
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 10010:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if (y2 - 4 > 50 + room[1] * 125)
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 10001:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
+
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 21100:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 21010:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 21001:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
+
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 20110:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 20011:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 20101:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }        
+    if (key2[0]) {
+
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }  
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 31110:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if (x2 - 4 > 650 + room[0] * 125)
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 31101:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if (y2 + 4 <= 175 + 125 * room[1])
         y2 = y2 + 4;
-      break;
     }
     break;
   case 31011:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if (x2 + 4 <= 775 + room[0] * 125)
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 30111:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if (y2 - 4 > 50 + 125 * room[1])
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   case 41111:
-    switch (key)
-    {
-    case 'd': case 'D':
+    if (key2[1]) {
+
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 + 4 <= 775 + room[0] * 125)
           x2 = x2 + 4;
       } else
         x2 = x2 + 4;
-      break;
-    case 'a': case 'A':
+    }    
+    if (key2[3]) {
       if ((y2 > 50 + 125 * room[1] && y2 < 100 + 125 * room[1]) || (y2 > 120 + 125 * room[1] && y2 <= 175 + 125 * room[1]))
       {
         if (x2 - 4 > 650 + 125 * room[0])
           x2 = x2 - 4;
       } else
         x2 = x2 - 4;
-      break;
-    case 'w': case 'W':
+    }
+    if (key2[0]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 - 4 > 50 + room[1] * 125)
           y2 = y2 - 4;
       } else
         y2 = y2 - 4;
-      break;
-    case 's': case 'S':
+    }
+    if (key2[2]) {
       if ((x2 > 650 + 125 * room[0] && x2 < 700 + 125 * room[0]) || (x2 > 720 + 125 * room[0] && x2 <= 775 + 125 * room[0]))
       {
         if (y2 + 4 <= 175 + room[1] * 125)
           y2 = y2 + 4;
       } else
         y2 = y2 + 4;
-      break;
     }
     break;
   }
 }
+
